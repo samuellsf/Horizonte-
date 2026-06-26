@@ -1,0 +1,56 @@
+aside{
+
+width:260px;
+
+background:#0b1730;
+
+padding:30px 20px;
+
+display:flex;
+
+flex-direction:column;
+
+gap:20px;
+
+box-shadow:
+4px 0 20px
+rgba(0,0,0,.3);
+
+}
+
+aside h2{
+
+font-size:34px;
+
+color:#fff;
+
+margin-bottom:20px;
+
+}
+
+aside button{
+
+background:#132446;
+
+border:none;
+
+color:white;
+
+padding:15px;
+
+border-radius:10px;
+
+cursor:pointer;
+
+transition:.3s;
+
+}
+
+aside button:hover{
+
+background:#2563eb;
+
+transform:
+translateX(5px);
+
+}

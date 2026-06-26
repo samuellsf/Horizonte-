@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Frota Horizonte - Mapa</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/mapa.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <style>
+        #mapa-container {
+            width: 100%;
+            height: calc(100vh - 40px);
+            background-color: #0b132b; /* Fundo escuro combinando com seu tema */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        main {
+            padding: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <aside>
+        <h2>🚛 F. HORIZONTE</h2>
+        <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+        <button class="active" onclick="window.location.href='mapa.html'">Mapa</button>
+        <button id="btn-exportar">Exportar Excel</button>
+    </aside>
+
+    <main>
+        <div id="mapa-container"></div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<script src="../js/frota.js"></script>
+<script src="../js/dashboard.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="../js/frota.js"></script>
+<script src="../js/mapa.js"></script>
+<script src="../js/frota.js"></script>
+<script src="../js/dashboard.js"></script>
+<script src="../js/pwa.js"></script> </body>
+
+</body>
+</html>

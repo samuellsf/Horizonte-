@@ -1,0 +1,9 @@
+{
+"name":"Fleet Control",
+
+"short_name":"Frota",
+
+"display":"standalone",
+
+"start_url":"/"
+}

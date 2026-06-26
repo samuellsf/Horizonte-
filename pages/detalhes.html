@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Frota Horizonte - Detalhes</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/detalhes.css">
+</head>
+<body>
+
+<div class="container">
+    <aside>
+        <h2>🚛 F. HORIZONTE</h2>
+        <button onclick="window.location.href='dashboard.html'">Dashboard</button>
+        <button onclick="window.location.href='mapa.html'">Mapa</button>
+        <button id="btn-exportar">Exportar Excel</button>
+    </aside>
+
+    <main>
+        <div class="detalhes-header">
+            <h1 id="veiculo-id">CAM-001</h1>
+            <button class="btn-voltar" onclick="window.location.href='dashboard.html'">← Voltar</button>
+        </div>
+
+        <div class="detalhes-grid">
+            <div class="info-card">
+                <span class="label">Tipo de Veículo</span>
+                <strong id="veiculo-tipo">Caminhão</strong>
+            </div>
+
+            <div class="info-card">
+                <span class="label">KM Rodados</span>
+                <strong id="veiculo-km">512.332</strong>
+            </div>
+
+            <div class="info-card">
+                <span class="label">Combustível</span>
+                <strong id="veiculo-combustivel">78%</strong>
+            </div>
+
+            <div class="info-card">
+                <span class="label">Potência do Motor</span>
+                <strong id="veiculo-motor">520cv</strong>
+            </div>
+
+            <div class="info-card">
+                <span class="label">Última Revisão</span>
+                <strong id="veiculo-revisao">15/06/2026</strong>
+            </div>
+
+            <div class="info-card">
+                <span class="label">Localização Atual</span>
+                <strong id="veiculo-localizacao">Pátio Central</strong>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="../js/frota.js"></script>
+<script src="../js/detalhes.js"></script>
+</body>
+</html>

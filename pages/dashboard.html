@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Frota Horizonte - Torre de Controle</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <style>
+        .painel-superior {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .grafico-container {
+            background-color: #111c2e;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .grafico-container span { color: #94a3b8; font-size: 0.9rem; margin-bottom: 10px; text-transform: uppercase; }
+        .central-alertas {
+            background: #1a1016;
+            border: 1px solid #4a1525;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none; /* Só aparece quando houver infração */
+        }
+        .alerta-item { color: #ff4d4d; font-weight: bold; font-size: 0.95rem; margin: 4px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <aside>
+        <h2>🚛 F. HORIZONTE</h2>
+        <button class="active" onclick="window.location.href='dashboard.html'">Dashboard</button>
+        <button onclick="window.location.href='mapa.html'">Mapa</button>
+        <button id="btn-exportar">Exportar Excel</button>
+    </aside>
+
+    <main>
+        <div id="painel-alertas" class="central-alertas">
+            <span style="color: #ff4d4d; font-weight: 200; font-size: 0.8rem; text-transform: uppercase;">⚠️ Central de Alertas de Telemetria</span>
+            <div id="lista-alertas"></div>
+        </div>
+
+        <div class="painel-superior">
+            <div class="cards" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                <div class="card"><span>Total Frota</span><strong id="card-total">0</strong></div>
+                <div class="card"><span>⛽ Consumo Médio</span><strong id="card-consumo">0.0 km/l</strong></div>
+                <div class="card"><span>🔧 Em Oficina</span><strong id="card-oficina">0</strong></div>
+                <div class="card"><span>⚠ Preventiva</span><strong id="card-preventiva">0</strong></div>
+                <div class="card"><span>🗺 Em Rota</span><strong id="card-rota">0</strong></div>
+                <div class="card"><span>🟢 Disponibilidade</span><strong id="card-disponivel">0%</strong></div>
+            </div>
+
+            <div class="grafico-container">
+                <span>Status da Frota</span>
+                <canvas id="graficoFrota" width="150" height="150"></canvas>
+            </div>
+        </div>
+
+        <input type="text" id="buscar" placeholder="Buscar veículo por ID ou Motorista...">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Veículo</th>
+                    <th>Tipo</th>
+                    <th>Vínculo</th>
+                    <th>Motorista / Condutor</th>
+                    <th>Velocidade</th>
+                    <th>Consumo Real</th>
+                    <th>Status Atual</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody id="lista"></tbody>
+        </table>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../js/frota.js"></script>
+<script src="../js/combustivel.js"></script>
+<script src="../js/dashboard.js"></script>
+<script src="../js/realtime.js"></script>
+</body>
+</html>
