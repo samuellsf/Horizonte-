@@ -1,5 +1,5 @@
 // service-worker.js
-const CACHE_NAME = 'frota-horizonte-cache-v1';
+const CACHE_NAME = 'horizonte-cache-v2';
 
 // Lista de arquivos que o PWA vai salvar para abrir mesmo sem internet
 const ARQUIVOS_PARA_CACHE = [
