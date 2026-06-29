@@ -22,9 +22,6 @@ button, input {
   outline: none;
 }
 
-/* ==========================================================================
-   📱 RESPONSIVIDADE: Regras para Celular (Telas até 768px de largura)
-   ========================================================================== */
 @media (max-width: 768px) {
   
   .container {

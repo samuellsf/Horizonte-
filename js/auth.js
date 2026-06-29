@@ -11,9 +11,9 @@ document
 .value
 
 if (
-user === "admin"
+user === "Horizonte"
 &&
-pass === "123"
+pass === "12345"
 ){
 
 localStorage.setItem(

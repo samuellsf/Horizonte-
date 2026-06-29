@@ -5,7 +5,7 @@ let mapa;
 const centroBrasil = [-15.7801, -47.9292]; 
 
 function inicializarMapa() {
-  // Procura uma div com id="mapa-container" no HTML
+  
   const container = document.querySelector("#mapa-container");
   if (!container) return;
 

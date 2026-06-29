@@ -1,56 +1,144 @@
-aside{
-
-width:260px;
-
-background:#0b1730;
-
-padding:30px 20px;
-
-display:flex;
-
-flex-direction:column;
-
-gap:20px;
-
-box-shadow:
-4px 0 20px
-rgba(0,0,0,.3);
-
+aside {
+    width: 260px;
+    background: #0b1730;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 4px 0 20px rgba(0,0,0,.3);
 }
 
-aside h2{
-
-font-size:34px;
-
-color:#fff;
-
-margin-bottom:20px;
-
+aside h2 {
+    font-size: 34px;
+    color: #fff;
+    margin-bottom: 20px;
 }
 
-aside button{
-
-background:#132446;
-
-border:none;
-
-color:white;
-
-padding:15px;
-
-border-radius:10px;
-
-cursor:pointer;
-
-transition:.3s;
-
+/* Ajuste na navegação superior para ficar em 2 colunas como na imagem */
+.nav-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
-aside button:hover{
+/* Faz o botão do Excel ocupar as duas colunas inteiras abaixo */
+.nav-buttons #btn-exportar {
+    grid-column: span 2;
+}
 
-background:#2563eb;
+/* Seus botões originais com leves ajustes de alinhamento */
+aside button {
+    background: #132446;
+    border: none;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
 
-transform:
-translateX(5px);
+aside button:hover,
+aside button.active {
+    background: #2563eb;
+    transform: translateX(5px);
+}
 
+/* Estrutura dos Filtros Rápidos */
+.filtros-status {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.filtros-status h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+/* Grid para os botões de filtro ficarem lado a lado (2 colunas) */
+.grid-filtros {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column; /* imagem em cima */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.logo-img {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+}
+
+.legenda-frota {
+    font-size: 11px;
+    font-weight: 400;
+    color: #94a3b8;
+    max-width: 220px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* ==========================================================
+   RESPONSIVIDADE (Mantida e adaptada para os novos grids)
+   ========================================================== */
+@media (max-width: 992px) {
+    .logo-container { margin-bottom: 0; }
+    
+    .container {
+        flex-direction: column;
+    }
+
+    aside {
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 10px 15px !important;
+        display: flex !important;
+        flex-direction: column !important; /* Mudado para column para abrigar os novos blocos em telas menores */
+        gap: 15px !important;
+        background-color: #071432 !important;
+    }
+
+    aside h2 {
+        margin: 0 !important;
+        font-size: 1.1rem !important;
+        white-space: nowrap; 
+    }
+
+    .nav-buttons, .grid-filtros {
+        width: 100%;
+    }
+
+    aside button {
+        margin: 0 !important; 
+        padding: 10px 12px !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .nav-buttons, .grid-filtros {
+        grid-template-columns: 1fr; /* 1 coluna em celular */
+    }
+    
+    .nav-buttons #btn-exportar {
+        grid-column: span 1;
+    }
 }

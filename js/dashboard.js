@@ -3,66 +3,103 @@
 const inputBuscar = document.querySelector("#buscar");
 const tabelaCorpo = document.querySelector("#lista");
 
-// Mapeamento dos Novos Indicadores da Imagem de Referência
+// Mapeamento dos Indicadores Superiores
 const cardTotal = document.querySelector("#card-total");
-const cardOficina = document.querySelector("#card-oficina");
-const cardPreventiva = document.querySelector("#card-preventiva");
-const cardRota = document.querySelector("#card-rota");
 const cardDisponivel = document.querySelector("#card-disponivel");
 
-// Elementos das Novas Métricas da Horizonte
+// Elementos das Métricas da Horizonte
 const cardEntregas = document.querySelector("#card-entregas");
 const cardAtrasos = document.querySelector("#card-atrasos");
 const cardConsumoLitros = document.querySelector("#card-consumo-litros");
 const cardEmissoes = document.querySelector("#card-emissoes");
+const cardTotalDevolucoes = document.querySelector("#total-devolucoes");
 
 let graficoFrotaObj;
+let graficoCaminhoesObj;
 
-// 1. Calcula todas as métricas em tempo real baseadas no js/frota.js
+// 🔧 NORMALIZADOR
+function normalizarStatus(status) {
+  return (status || "")
+    .toString()
+    .toLowerCase()
+    .trim();
+}
+
+// ================================
+// INDICADORES
+// ================================
 function atualizarPainelIndicadores() {
-  if (typeof frota === 'undefined') return;
+  if (typeof frota === "undefined") return;
 
-  // Contagem Geral para a Frota de Rua (Excluindo Empilhadeiras do cálculo de rota)
-  const totalVeiculosRua = frota.filter(v => v.tipo !== "Empilhadeira").length; // 68 veículos
-  const totalGeral = frota.length; // 72 veículos no total
+  const totalGeral = frota.length;
 
-  const oficina = frota.filter(v => v.status === "Oficina").length;
-  const preventiva = frota.filter(v => v.status === "Preventiva").length;
-  const emRota = frota.filter(v => v.status === "Em rota").length;
-  const noPatio = frota.filter(v => v.status === "No Pátio").length;
+  const oficina = frota.filter(v =>
+    normalizarStatus(v.status).includes("oficina")
+  ).length;
 
-  // Disponibilidade Real (Quem não está parado na manutenção)
+  const preventiva = frota.filter(v =>
+    normalizarStatus(v.status).includes("preventiva")
+  ).length;
+
+  const emRota = frota.filter(v =>
+    normalizarStatus(v.status).includes("rota")
+  ).length;
+
+  const noPatio = frota.filter(v =>
+    normalizarStatus(v.status).includes("patio")
+  ).length;
+
+  const totalAtrasos = frota.filter(v =>
+    normalizarStatus(v.status).includes("atras")
+  ).length;
+
   const disponiveis = totalGeral - (oficina + preventiva);
-  const porcentagemDisponivel = Math.round((disponiveis / totalGeral) * 100);
 
-  // Cálculos Logísticos Avançados (Simulados dinamicamente com base na atividade da frota)
-  const totalEntregasConcluidas = frota.reduce((acc, v) => acc + (v.entregasHoje || 0), 0);
-  const totalAtrasos = frota.filter(v => v.atrasado === true).length;
-  
-  // Combustível total consumido no dia (litros acumulados) e emissões de CO2 equivalentes
-  const litrosConsumidos = 1280 + (emRota * 2); 
-  const kgEmissoes = Math.round(litrosConsumidos * 2.0625); // Cálculo baseado em pegada de carbono diesel
+  const porcentagemDisponivel = totalGeral
+    ? Math.round((disponiveis / totalGeral) * 100)
+    : 0;
 
-  // Injeção segura dos dados nos Cards do HTML
-  if (cardTotal) cardTotal.textContent = `${disponiveis} / ${totalGeral}`;
-  if (cardOficina) cardOficina.textContent = oficina;
-  if (cardPreventiva) cardPreventiva.textContent = preventiva;
-  if (cardRota) cardRota.textContent = emRota;
-  if (cardDisponivel) cardDisponivel.textContent = `${porcentagemDisponivel}%`;
-  
-  // Atualização dos novos cards logísticos
-  if (cardEntregas) cardEntregas.textContent = `${totalEntregasConcluidas} CONCLUÍDAS`;
-  if (cardAtrasos) cardAtrasos.textContent = `${totalAtrasos} EM ATRASO`;
-  if (cardConsumoLitros) cardConsumoLitros.textContent = `${litrosConsumidos.toLocaleString('pt-BR')} L`;
-  if (cardEmissoes) cardEmissoes.textContent = `${kgEmissoes.toLocaleString('pt-BR')} kg`;
+  const totalEntregasConcluidas = frota.reduce((acc, v) =>
+    acc + (Number(v.entregas) || 0), 0
+  );
 
-  // Atualiza o Gráfico de Rosquinha do Painel
+  const totalDevolucoesHoje = frota.reduce((acc, v) =>
+    acc + (Number(v.devolucoes) || 0), 0
+  );
+
+  const litrosConsumidos = 1280 + (emRota * 2);
+  const kgEmissoes = Math.round(litrosConsumidos * 2.0625);
+
+  if (cardTotal)
+    cardTotal.textContent = `${disponiveis} / ${totalGeral}`;
+
+  if (cardDisponivel)
+    cardDisponivel.textContent = `${porcentagemDisponivel}%`;
+
+  if (cardEntregas)
+    cardEntregas.textContent =
+      totalEntregasConcluidas.toLocaleString("pt-BR");
+
+  if (cardAtrasos)
+    cardAtrasos.textContent = `${totalAtrasos} EM ATRASO`;
+
+  if (cardConsumoLitros)
+    cardConsumoLitros.textContent = `${litrosConsumidos} L`;
+
+  if (cardEmissoes)
+    cardEmissoes.textContent = `${kgEmissoes} kg`;
+
+  if (cardTotalDevolucoes)
+    cardTotalDevolucoes.textContent = totalDevolucoesHoje;
+
   renderizarGrafico(emRota + noPatio, oficina, preventiva);
 }
 
-// 2. Desenha ou Atualiza o Gráfico Operacional (Chart.js)
+// ================================
+// GRÁFICO ROSQUINHA
+// ================================
 function renderizarGrafico(ativos, oficina, preventiva) {
-  const ctx = document.getElementById('graficoFrota');
+  const ctx = document.getElementById("graficoFrota");
   if (!ctx) return;
 
   if (graficoFrotaObj) {
@@ -72,12 +109,12 @@ function renderizarGrafico(ativos, oficina, preventiva) {
   }
 
   graficoFrotaObj = new Chart(ctx, {
-    type: 'doughnut',
+    type: "doughnut",
     data: {
-      labels: ['Operando', 'Oficina', 'Preventiva'],
+      labels: ["Operando", "Oficina", "Preventiva"],
       datasets: [{
         data: [ativos, oficina, preventiva],
-        backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+        backgroundColor: ["#28a745", "#dc3545", "#ffc107"],
         borderWidth: 0
       }]
     },
@@ -88,99 +125,280 @@ function renderizarGrafico(ativos, oficina, preventiva) {
   });
 }
 
-// 3. Renderiza a tabela operacional na tela com as novas colunas corporativas
-
-// Adicione esta função dentro do seu js/dashboard.js para renderizar o gráfico de colunas azul
+// ================================
+// GRÁFICO BARRAS
+// ================================
 function renderizarGraficoBarrasBaia() {
-  const ctx = document.getElementById('graficoCaminhoes');
+  const ctx = document.getElementById("graficoCaminhoes");
   if (!ctx) return;
 
-  new Chart(ctx, {
-    type: 'bar',
+  if (graficoCaminhoesObj) {
+    graficoCaminhoesObj.destroy();
+  }
+
+  graficoCaminhoesObj = new Chart(ctx, {
+    type: "bar",
     data: {
-      labels: ['10 BAIAS', '8 BAIAS', '6 BAIAS', '6 BAIAS', '4 BAIAS'],
+      labels: ["10 BAIAS", "8 BAIAS", "6 BAIAS", "6 BAIAS", "4 BAIAS"],
       datasets: [{
+        label: "Caminhões",
         data: [12, 15, 14, 14, 9],
-        backgroundColor: '#00c0ff',
-        borderRadius: 4
+        backgroundColor: "#00c0ff",
+        borderRadius: 4,
+        borderWidth: 0
       }]
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false,
       scales: {
-        y: { grid: { color: '#142850' }, ticks: { color: '#64748b' } },
-        x: { ticks: { color: '#64748b' } }
+        y: {
+          grid: { color: "#142850" },
+          ticks: { color: "#64748b", font: { size: 10 } }
+        },
+        x: {
+          grid: { display: false },
+          ticks: { color: "#64748b", font: { size: 9 } }
+        }
       },
       plugins: { legend: { display: false } }
     }
   });
 }
 
-// Chame a função renderizarGraficoBarrasBaia() dentro do seu evento DOMContentLoaded!
+// ================================
+// TABELA
+// ================================
 function renderizarTabelaFrota(dados = frota) {
   if (!tabelaCorpo) return;
+
   tabelaCorpo.innerHTML = "";
 
-  if (dados.length === 0) {
-    tabelaCorpo.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:20px; color:#888;">Nenhum registro localizado na base Horizonte.</td></tr>`;
+  if (!dados.length) {
+    tabelaCorpo.innerHTML = `
+      <tr>
+        <td colspan="10" style="text-align:center; padding:20px; color:#888;">
+          Nenhum registro localizado na base Horizonte.
+        </td>
+      </tr>`;
     return;
   }
 
-  dados.forEach(veiculo => {
-    let badgeColor = "#28a745"; // Verde padrão para operação ativa
-    if (veiculo.status === "Oficina") badgeColor = "#dc3545"; // Vermelho
-    if (veiculo.status === "Preventiva") badgeColor = "#ffc107"; // Amarelo
-    if (veiculo.status === "No Pátio") badgeColor = "#007bff"; // Azul exclusivo para pátio (Empilhadeiras)
+  let linhas = "";
 
-    // Estilização condicional se houver excesso de velocidade ou atraso operacional
-    let velEstilo = veiculo.velocidade > 85 ? "color: #ff4d4d; font-weight: bold;" : "color: #fff;";
-    let linhaEstilo = veiculo.atrasado ? "background-color: rgba(220, 53, 69, 0.05);" : "";
+  dados.forEach(v => {
+    const revisaoTexto = v.revisao || "N/A";
+    const multasTexto = v.multas || "Nenhuma";
+    const motivoTexto = v.motivoParada || "Sem observações";
 
-    let consumo = typeof calcularConsumoInstantaneo !== 'undefined' ? calcularConsumoInstantaneo(veiculo) : "—";
+    const classeRevisao =
+      revisaoTexto.includes("REVISAR") ? "txt-red font-bold" : "txt-blue";
 
-    tabelaCorpo.innerHTML += `
-      <tr style="${linhaEstilo}">
-        <td><strong>${veiculo.id}</strong></td>
-        <td><span class="tag-tipo">${veiculo.tipo}</span></td>
-        <td><small style="color: #94a3b8;">${veiculo.modelo}</small></td>
-        <td style="color: #cbd5e1;">${veiculo.motorista}</td>
-        <td style="${velEstilo}">${veiculo.velocidade} km/h</td>
-        <td style="color: #add8e6;">${consumo === 0 ? "—" : consumo}</td>
-        <td><span style="color: ${badgeColor}; font-weight: bold;">● ${veiculo.status} ${veiculo.atrasado ? '(Atrasado)' : ''}</span></td>
-        <td><button class="btn-ver" data-id="${veiculo.id}">Ver</button></td>
+    const classeMulta =
+      multasTexto !== "Nenhuma" ? "txt-red" : "txt-green";
+
+    const status = normalizarStatus(v.status);
+
+    let statusComMotivo = "";
+
+    if (status.includes("rota")) {
+      statusComMotivo = `<span style="color:#4ade80;">● Em Rota</span>`;
+
+      if (Number(v.devolucoes) > 0) {
+        statusComMotivo += `<br><small style="color:#f7a04a;">⚠️ ${v.devolucoes} Devolução: ${v.motivoDevolucao || ""}</small>`;
+      }
+
+    } else if (status.includes("oficina")) {
+      statusComMotivo = `<span style="color:#ff4d4d;">● Oficina</span><br><small class="txt-gray">${motivoTexto}</small>`;
+
+    } else if (status.includes("preventiva")) {
+      statusComMotivo = `<span style="color:#ffc107;">● Preventiva</span><br><small class="txt-gray">${motivoTexto}</small>`;
+
+    } else if (status.includes("conclu")) {
+      statusComMotivo = `<span style="color:#22c55e;">● Concluído</span>`;
+
+    } else if (status.includes("patio")) {
+      statusComMotivo = `<span style="color:#38bdf8;">● Pátio</span>`;
+
+    } else {
+      statusComMotivo = `<span style="color:#38bdf8;">● ${v.status}</span>`;
+    }
+
+    linhas += `
+      <tr>
+        <td><strong>${v.id}</strong></td>
+        <td><span class="tag-tipo">${v.tipo}</span></td>
+        <td><small style="color:#94a3b8;">${v.modelo}</small></td>
+        <td style="color:#cbd5e1;">${v.motorista}</td>
+        <td style="${v.velocidade > 85 ? "color:#ff4d4d;font-weight:bold;" : "color:#fff;"}">
+          ${v.velocidade} km/h
+        </td>
+        <td style="color:#add8e6;">${v.consumo || "—"}</td>
+        <td class="${classeRevisao}">${revisaoTexto}</td>
+        <td class="${classeMulta}">${multasTexto}</td>
+        <td>${statusComMotivo}</td>
+        <td><button class="btn-ver" data-id="${v.id}">Ver</button></td>
       </tr>
     `;
   });
 
-  vincularEventosBotoes();
+  tabelaCorpo.innerHTML = linhas;
 }
 
-// 4. Input de busca inteligente que varre múltiplos campos da Frota Horizonte
+// ================================
+// BUSCA
+// ================================
 if (inputBuscar) {
   inputBuscar.addEventListener("input", (e) => {
     const termo = e.target.value.toLowerCase().trim();
-    const filtrados = frota.filter(v => 
-      v.id.toLowerCase().includes(termo) || 
-      v.motorista.toLowerCase().includes(termo) ||
-      v.tipo.toLowerCase().includes(termo) ||
-      v.destino.toLowerCase().includes(termo)
+
+    if (!termo) return renderizarTabelaFrota(frota);
+
+    const filtrados = frota.filter(v =>
+      v.id?.toLowerCase().includes(termo) ||
+      v.motorista?.toLowerCase().includes(termo) ||
+      v.tipo?.toLowerCase().includes(termo) ||
+      v.destino?.toLowerCase().includes(termo)
     );
+
     renderizarTabelaFrota(filtrados);
   });
 }
 
-function vincularEventosBotoes() {
-  document.querySelectorAll(".btn-ver").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      localStorage.setItem("veiculoSelecionado", e.target.getAttribute("data-id"));
+// ================================
+// BOTÃO VER (EVENT DELEGATION)
+// ================================
+if (tabelaCorpo) {
+  tabelaCorpo.addEventListener("click", (e) => {
+    if (e.target.classList.contains("btn-ver")) {
+      localStorage.setItem("veiculoSelecionado", e.target.dataset.id);
       window.location.href = "detalhes.html";
-    });
+    }
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (typeof frota !== 'undefined') {
-    atualizarPainelIndicadores();
-    renderizarTabelaFrota();
+// ================================
+// EXPORTAÇÃO CSV
+// ================================
+const btnExportar = document.querySelector("#btn-exportar");
+
+if (btnExportar) {
+  btnExportar.addEventListener("click", () => {
+    if (!frota?.length) return alert("Nenhum dado encontrado.");
+
+    let csv =
+      "ID;Tipo;Modelo;Motorista;Velocidade;Consumo;Revisao;Multas;Status;Destino;Motivo;Devolucoes\n";
+
+    frota.forEach(v => {
+      csv += `${v.id};${v.tipo};${v.modelo};${v.motorista};${v.velocidade} km/h;${v.consumo};${v.revisao};${v.multas};${v.status};${v.destino};${v.motivoParada || ""};${v.devolucoes || 0}\n`;
+    });
+
+    const blob = new Blob(["\ufeff" + csv], {
+      type: "text/csv;charset=utf-8;"
+    });
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Relatorio_Frota_Horizonte.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  });
+}
+
+// ================================
+// FILTRO STATUS
+// ================================
+let statusSelecionado = "todos";
+
+document.querySelectorAll(".filtro-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filtro-btn")
+      .forEach(b => b.classList.remove("ativo"));
+
+    btn.classList.add("ativo");
+    statusSelecionado = btn.dataset.status;
+
+    aplicarFiltroStatus();
+  });
+});
+
+function aplicarFiltroStatus() {
+  if (statusSelecionado === "todos") {
+    renderizarTabelaFrota(frota);
+    return;
   }
+
+  const filtrados = frota.filter(v =>
+    normalizarStatus(v.status).includes(statusSelecionado)
+  );
+
+  renderizarTabelaFrota(filtrados);
+}
+
+// ================================
+// ENTREGAS POR TIPO
+// ================================
+function atualizarEntregasTipos() {
+  if (typeof frota === "undefined") return;
+
+  let baias10Qtd = 0, baias10Vol = 0;
+  let baias8Qtd = 0, baias8Vol = 0;
+  let baias4Qtd = 0, baias4Vol = 0;
+  let vansQtd = 0, vansVol = 0;
+  let agregQtd = 0, agregVol = 0;
+
+  frota.forEach(v => {
+    const tipo = (v.tipo || "").toLowerCase();
+    const volume = Number(v.volume || 0);
+
+    if (tipo.includes("10")) {
+      baias10Qtd++; baias10Vol += volume;
+    } else if (tipo.includes("8")) {
+      baias8Qtd++; baias8Vol += volume;
+    } else if (tipo.includes("4")) {
+      baias4Qtd++; baias4Vol += volume;
+    } else if (tipo.includes("van")) {
+      vansQtd++; vansVol += volume;
+    } else if (tipo.includes("agreg")) {
+      agregQtd++; agregVol += volume;
+    }
+  });
+
+  const set = (id, val) => {
+    const el = document.querySelector(id);
+    if (el) el.textContent = val;
+  };
+
+  set("#qtd-baias10", baias10Qtd);
+  set("#vol-baias10", `Vol: ${baias10Vol}`);
+
+  set("#qtd-baias8", baias8Qtd);
+  set("#vol-baias8", `Vol: ${baias8Vol}`);
+
+  set("#qtd-baias4", baias4Qtd);
+  set("#vol-baias4", `Vol: ${baias4Vol}`);
+
+  set("#qtd-vans", vansQtd);
+  set("#vol-vans", `Vol: ${vansVol}`);
+
+  set("#qtd-agregados", agregQtd);
+  set("#vol-agregados", `Vol: ${agregVol}`);
+}
+
+// ================================
+// INIT
+// ================================
+document.addEventListener("DOMContentLoaded", () => {
+  if (typeof frota === "undefined") {
+    console.error("Base da frota não encontrada.");
+    return;
+  }
+
+  atualizarPainelIndicadores();
+  renderizarTabelaFrota();
+  renderizarGraficoBarrasBaia();
+  atualizarEntregasTipos();
+
+  console.log("Dashboard Horizonte carregado com sucesso.");
 });

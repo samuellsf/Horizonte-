@@ -29,6 +29,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (elCombustivel) elCombustivel.textContent = `${Math.floor(Math.random() * (100 - 20) + 20)}%`;
         if (elMotor) elMotor.textContent = veiculoEncontrado.tipo === "Empilhadeira" ? "Elétrica" : "520cv";
         if (elRevisao) elRevisao.textContent = "15/06/2026";
-        if (elLocalizacao) elLocalizacao.textContent = veiculoEncontrado.status === "Oficina" ? "Oficina Central" : "Em Rota / Pátio";
+       if (elLocalizacao) {
+    const status = veiculoEncontrado.status;
+
+    const mapaStatus = {
+        "Oficina": "Oficina Central",
+        "Em Oficina": "Oficina Central",
+        "Rota": "Em Rota",
+        "Em Rota": "Em Rota",
+        "Pátio": "No Pátio",
+        "Patio": "No Pátio",
+        "Concluído": "Concluído"
+    };
+
+    elLocalizacao.textContent = mapaStatus[status] || status;
+}
     }
 });
