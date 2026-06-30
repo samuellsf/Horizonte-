@@ -1,48 +1,69 @@
-// js/detalhes.js
+/*detalhes.js*/
 
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Pega o ID que foi salvo no LocalStorage ao clicar em "Ver"
-    const idSelecionado = localStorage.getItem("veiculoSelecionado") || "CAM-1";
+const DetalhesService = {
+   
+    init() {
+        document.addEventListener("DOMContentLoaded", () => {
+            const idSelecionado = localStorage.getItem("veiculoSelecionado") || "CAM-1";
+            this.carregarDetalhes(idSelecionado);
+        });
+    },
 
-    // 2. Busca o veículo correspondente na nossa lista global
-    const veiculoEncontrado = typeof frota !== 'undefined' 
-        ? frota.find(v => v.id === idSelecionado) 
-        : null;
-
-    // 3. Mapeia os elementos da tela
-    const elId = document.querySelector("#veiculo-id");
-    const elTipo = document.querySelector("#veiculo-tipo");
-    const elKm = document.querySelector("#veiculo-km");
-    const elCombustivel = document.querySelector("#veiculo-combustivel");
-    const elMotor = document.querySelector("#veiculo-motor");
-    const elRevisao = document.querySelector("#veiculo-revisao");
-    const elLocalizacao = document.querySelector("#veiculo-localizacao");
-
-    // 4. Alimenta a tela com os dados
-    if (elId) elId.textContent = idSelecionado;
-
-    if (veiculoEncontrado) {
-        if (elTipo) elTipo.textContent = veiculoEncontrado.tipo;
+    carregarDetalhes(id) {
+        const veiculo = typeof frota !== 'undefined' ? frota.find(v => v.id === id) : null;
         
+        if (!veiculo) {
+            console.warn("Veículo não encontrado:", id);
+            return;
+        }
+
+        this.renderizar(veiculo);
+    },
+
+    renderizar(veiculo) {
+        const elementos = {
+            id: document.querySelector("#veiculo-id"),
+            tipo: document.querySelector("#veiculo-tipo"),
+            km: document.querySelector("#veiculo-km"),
+            combustivel: document.querySelector("#veiculo-combustivel"),
+            motor: document.querySelector("#veiculo-motor"),
+            revisao: document.querySelector("#veiculo-revisao"),
+            localizacao: document.querySelector("#veiculo-localizacao")
+        };
+
+        if (elementos.id) elementos.id.textContent = veiculo.id;
+        if (elementos.tipo) elementos.tipo.textContent = veiculo.tipo;
         
-        if (elKm) elKm.textContent = veiculoEncontrado.tipo === "Empilhadeira" ? "N/A (Horas: 1.240h)" : `${(500000 + (parseInt(idSelecionado.split('-')[1]) * 123)).toLocaleString('pt-BR')} km`;
-        if (elCombustivel) elCombustivel.textContent = `${Math.floor(Math.random() * (100 - 20) + 20)}%`;
-        if (elMotor) elMotor.textContent = veiculoEncontrado.tipo === "Empilhadeira" ? "Elétrica" : "520cv";
-        if (elRevisao) elRevisao.textContent = "15/06/2026";
-       if (elLocalizacao) {
-    const status = veiculoEncontrado.status;
+     
+        if (elementos.km) {
+            elementos.km.textContent = veiculo.tipo === "Empilhadeira" 
+                ? "N/A (Horas: 1.240h)" 
+                : `${(500000 + (parseInt(veiculo.id.split('-')[1]) * 123)).toLocaleString('pt-BR')} km`;
+        }
 
-    const mapaStatus = {
-        "Oficina": "Oficina Central",
-        "Em Oficina": "Oficina Central",
-        "Rota": "Em Rota",
-        "Em Rota": "Em Rota",
-        "Pátio": "No Pátio",
-        "Patio": "No Pátio",
-        "Concluído": "Concluído"
-    };
+        if (elementos.combustivel) elementos.combustivel.textContent = `${Math.floor(Math.random() * (100 - 20) + 20)}%`;
+        if (elementos.motor) elementos.motor.textContent = veiculo.tipo === "Empilhadeira" ? "Elétrica" : "520cv";
+        if (elementos.revisao) elementos.revisao.textContent = "15/06/2026";
+        
+        if (elementos.localizacao) {
+            elementos.localizacao.textContent = this.traduzirLocalizacao(veiculo.status);
+        }
+    },
 
-    elLocalizacao.textContent = mapaStatus[status] || status;
-}
+   
+    traduzirLocalizacao(status) {
+        const mapaStatus = {
+            "Oficina": "Oficina Central",
+            "Em Oficina": "Oficina Central",
+            "Rota": "Em Rota",
+            "Em Rota": "Em Rota",
+            "Pátio": "No Pátio",
+            "Patio": "No Pátio",
+            "Concluído": "Concluído"
+        };
+        return mapaStatus[status] || status;
     }
-});
+};
+
+
+DetalhesService.init();

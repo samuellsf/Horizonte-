@@ -1,65 +1,66 @@
-// js/mapa.js
+/* mapa.js */
 
-// 1. Configuração inicial do Mapa (Centralizado no Brasil por padrão)
-let mapa;
-const centroBrasil = [-15.7801, -47.9292]; 
+const MapaService = {
+    mapa: null,
+    grupoMarcadores: null,
+    centroPadrao: [-15.7801, -47.9292],
 
-function inicializarMapa() {
-  
-  const container = document.querySelector("#mapa-container");
-  if (!container) return;
+    init(containerId) {
+        const container = document.querySelector(`#${containerId}`);
+        if (!container) return;
 
-  // Cria o mapa usando a biblioteca Leaflet (L)
-  mapa = L.map('mapa-container').setView(centroBrasil, 4);
+        this.mapa = L.map(containerId).setView(this.centroPadrao, 4);
+        this.grupoMarcadores = L.layerGroup().addTo(this.mapa);
 
-  // Adiciona as imagens/camadas do mapa (OpenStreetMap)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(mapa);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(this.mapa);
 
-  // Plota os veículos se a frota existir
-  if (typeof frota !== 'undefined' && frota.length > 0) {
-    plotarVeiculosNoMapa();
-  }
-}
+        console.log("Mapa inicializado com sucesso.");
+    },
 
-// 2. Função para gerar coordenadas falsas ao redor do centro para simulação
-function gerarCoordenadasAleatorias(baseLat, baseLng, variacao = 8) {
-  const lat = baseLat + (Math.random() - 0.5) * variacao;
-  const lng = baseLng + (Math.random() - 0.5) * variacao;
-  return [lat, lng];
-}
+    renderizarVeiculos(listaVeiculos) {
+        if (!this.grupoMarcadores) return;
+        
+        this.grupoMarcadores.clearLayers(); 
 
-// 3. Coloca os pins (marcadores) de cada caminhão e empilhadeira no mapa
-function plotarVeiculosNoMapa() {
-  frota.forEach(veiculo => {
-    // Gera um ponto no mapa para o veículo
-    const [lat, lng] = gerarCoordenadasAleatorias(centroBrasil[0], centroBrasil[1]);
+        listaVeiculos.forEach(veiculo => {
+            const [lat, lng] = this._gerarCoordenadasAleatorias();
+            const marcador = L.marker([lat, lng]).addTo(this.grupoMarcadores);
+            marcador.bindPopup(this._criarTemplatePopup(veiculo));
+        });
+    },
 
-    // Define a cor do pin ou texto com base no status do veículo
-    const corStatus = veiculo.status === "Operando" || veiculo.status === "Ativa" ? "🟢" : "🔴";
+    _gerarCoordenadasAleatorias(variacao = 8) {
+        const lat = this.centroPadrao[0] + (Math.random() - 0.5) * variacao;
+        const lng = this.centroPadrao[1] + (Math.random() - 0.5) * variacao;
+        return [lat, lng];
+    },
 
-    // Cria o marcador no mapa
-    const marcador = L.marker([lat, lng]).addTo(mapa);
+    _criarTemplatePopup(veiculo) {
+        const statusIcon = (veiculo.status === "Operando" || veiculo.status === "Ativa") ? "🟢" : "🔴";
+        return `
+            <div style="font-family: sans-serif; line-height: 1.4;">
+                <h3 style="margin: 0 0 5px 0;">${veiculo.id}</h3>
+                <p style="margin: 0;"><strong>Status:</strong> ${statusIcon} ${veiculo.status}</p>
+                <button onclick="MapaService.verDetalhes('${veiculo.id}')" 
+                        style="margin-top: 8px; background: #007bff; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; width: 100%;">
+                    Ver Detalhes
+                </button>
+            </div>
+        `;
+    },
 
-    // Cria a caixinha de texto (Popup) que aparece ao clicar no marcador
-    marcador.bindPopup(`
-      <div style="font-family: sans-serif; line-height: 1.4;">
-        <h3 style="margin: 0 0 5px 0;">${veiculo.id}</h3>
-        <p style="margin: 0;"><strong>Status:</strong> ${corStatus} ${veiculo.status}</p>
-        <button onclick="verDetalhesMapa('${veiculo.id}')" style="margin-top: 8px; background: #007bff; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; width: 100%;">Ver Detalhes</button>
-      </div>
-    `);
-  });
-}
-
-// 4. Ação do botão de detalhes dentro do balão do mapa
-window.verDetalhesMapa = function(idVeiculo) {
-  localStorage.setItem("veiculoSelecionado", idVeiculo);
-  window.location.href = "detalhes.html";
+    verDetalhes(idVeiculo) {
+        localStorage.setItem("veiculoSelecionado", idVeiculo);
+        window.location.href = "detalhes.html";
+    }
 };
 
-// 5. Executa assim que a estrutura da página carregar
 document.addEventListener("DOMContentLoaded", () => {
-  inicializarMapa();
+    MapaService.init("mapa-container");
+
+    if (typeof frota !== 'undefined') {
+        MapaService.renderizarVeiculos(frota);
+    }
 });

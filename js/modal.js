@@ -1,29 +1,30 @@
-function abrirModal(id){
+/*modal.js */
 
-const v=
+const ModalService = {
 
-frota.find(
+    element: document.getElementById("modal"),
+    titulo: document.getElementById("modal-titulo"),
+    status: document.getElementById("modal-status"),
 
-x=>
+    abrir(id, dadosFonte) {
+        
+        const veiculo = dadosFonte.find(x => x.id === id);
+        
+        if (!veiculo || !this.element) {
+            console.error("Veículo não encontrado ou modal não configurado.");
+            return;
+        }
 
-x.id===id
+        this.titulo.innerHTML = veiculo.id;
+        this.status.innerHTML = veiculo.status;
 
-)
 
-modal.style.display=
-"flex"
+        this.element.style.display = "flex";
+    },
 
-titulo.innerHTML=
-v.id
-
-status.innerHTML=
-v.status
-
-}
-
-function fecharModal(){
-
-modal.style.display=
-"none"
-
-}
+    fechar() {
+        if (this.element) {
+            this.element.style.display = "none";
+        }
+    }
+};
