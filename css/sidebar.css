@@ -1,5 +1,5 @@
 aside {
-    width: 260px;
+    width: 300px;
     background: #0b1730;
     padding: 30px 20px;
     display: flex;
@@ -14,76 +14,23 @@ aside h2 {
     margin-bottom: 20px;
 }
 
-/* Ajuste na navegação superior para ficar em 2 colunas como na imagem */
-.nav-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-/* Faz o botão do Excel ocupar as duas colunas inteiras abaixo */
-.nav-buttons #btn-exportar {
-    grid-column: span 2;
-}
-
-/* Seus botões originais com leves ajustes de alinhamento */
-aside button {
-    background: #132446;
-    border: none;
-    color: white;
-    padding: 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: .3s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-}
-
-aside button:hover,
-aside button.active {
-    background: #2563eb;
-    transform: translateX(5px);
-}
-
-/* Estrutura dos Filtros Rápidos */
-.filtros-status {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
-}
-
-.filtros-status h3 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #fff;
-    margin: 0;
-    letter-spacing: 0.5px;
-}
-
-/* Grid para os botões de filtro ficarem lado a lado (2 colunas) */
-.grid-filtros {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
+/* ============================
+   Logo
+============================ */
 
 .logo-container {
     display: flex;
-    flex-direction: column; /* imagem em cima */
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    text-align: center;
     gap: 8px;
     margin-bottom: 20px;
-    text-align: center;
 }
 
-.logo-img {
-    width: 180px;
-    height: 180px;
-    object-fit: contain;
+.logo-img{
+    width:200px;
+    height:auto;
+    object-fit:contain;
 }
 
 .legenda-frota {
@@ -95,50 +42,162 @@ aside button.active {
     margin: 0;
 }
 
-/* ==========================================================
-   RESPONSIVIDADE (Mantida e adaptada para os novos grids)
-   ========================================================== */
+/* ============================
+   Navegación
+============================ */
+
+.nav-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.nav-buttons #btn-exportar {
+    grid-column: span 2;
+}
+
+aside button {
+    background: #132446;
+    border: none;
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+aside button:hover,
+aside button.active {
+    background: #2563eb;
+    transform: translateX(1px);
+}
+
+/* ============================
+   Filtros
+============================ */
+
+.filtros-status {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.filtros-status h3 {
+    color: white;
+    margin: 0;
+    font-size: 18px;
+}
+
+.grid-filtros {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+/* ============================
+   Tablet
+============================ */
+
 @media (max-width: 992px) {
-    .logo-container { margin-bottom: 0; }
-    
+
     .container {
         flex-direction: column;
     }
 
     aside {
-        width: 100% !important;
-        height: auto !important;
-        min-height: auto !important;
-        padding: 10px 15px !important;
-        display: flex !important;
-        flex-direction: column !important; /* Mudado para column para abrigar os novos blocos em telas menores */
-        gap: 15px !important;
-        background-color: #071432 !important;
+        width: 100%;
+        padding: 15px;
+    }
+
+    .logo-container {
+        margin-bottom: 15px;
     }
 
     aside h2 {
-        margin: 0 !important;
-        font-size: 1.1rem !important;
-        white-space: nowrap; 
-    }
-
-    .nav-buttons, .grid-filtros {
-        width: 100%;
+        font-size: 22px;
+        margin-bottom: 10px;
     }
 
     aside button {
-        margin: 0 !important; 
-        padding: 10px 12px !important;
-        font-size: 0.8rem !important;
+        padding: 12px;
+        font-size: 14px;
     }
 }
+/* ============================
+   CELULARES
+============================ */
 
-@media (max-width: 576px) {
-    .nav-buttons, .grid-filtros {
-        grid-template-columns: 1fr; /* 1 coluna em celular */
+@media (max-width:768px){
+
+    aside{
+        width:100%;
+        padding:20px 18px;
+        border-bottom:2px solid #142850;
+        overflow:hidden;
     }
-    
-    .nav-buttons #btn-exportar {
-        grid-column: span 1;
+
+    /* Logo */
+
+    .logo-container{
+        margin-bottom:30px;
     }
+
+    .logo-img{
+        width:180px;
+        height:auto;
+        display:block;
+        margin:0 auto 15px;
+    }
+
+    .legenda-frota{
+        width:100%;
+        max-width:320px;
+        margin:auto;
+        text-align:center;
+        font-size:.95rem;
+        line-height:1.5;
+    }
+
+    /* Botões */
+
+    .nav-buttons{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:18px;
+        margin-bottom:20px;
+    }
+
+    #btn-exportar{
+        grid-column:1 / -1;
+    }
+
+    aside button{
+        width:100%;
+        padding:16px;
+        font-size:1rem;
+        border-radius:12px;
+    }
+
+    /* Filtros */
+
+    .filtros-status{
+        gap:12px;
+    }
+
+    .filtros-status h3{
+        font-size:1.4rem;
+        margin-bottom:10px;
+    }
+
+    .filtro-btn{
+        padding:15px;
+        font-size:1rem;
+    }
+
 }

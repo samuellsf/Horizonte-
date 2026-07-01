@@ -273,33 +273,60 @@ tbody tr:hover{
    RESPONSIVO
 ============================== */
 
-@media(max-width:1200px){
-
-    .top-indicators{
-        grid-template-columns:repeat(3,1fr);
+@media (max-width: 1024px) {
+    .container {
+        display: block; 
     }
 
-    .main-operation-grid{
-        grid-template-columns:repeat(2,1fr);
+    aside {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .nav-buttons, .filtros-status {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .nav-buttons button, .filtro-btn {
+        flex: 1 1 45%;
+    }
+
+    
+    .top-indicators, .kpi-ambev-grid, .finance-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .main-operation-grid {
+        grid-template-columns: 1fr;
     }
 }
 
-@media(max-width:768px){
-
-    .top-indicators,
-    .kpi-ambev-grid,
-    .finance-grid,
-    .main-operation-grid{
-        grid-template-columns:1fr;
+@media (max-width: 600px) {
+   
+    .table-section {
+        padding: 10px; 
     }
 
-    .table-header{
-        flex-direction:column;
-        align-items:stretch;
+    table {
+        min-width: 700px; 
+        font-size: 0.85rem; 
     }
 
-    #buscar{
-        max-width:none;
-        width:100%;
+    .indicator-box, .kpi-card {
+        padding: 12px;
+    }
+    
+    .kpi-card h2 {
+        font-size: 1.5rem; 
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .container {
+        padding: 0 5px;
     }
 }
