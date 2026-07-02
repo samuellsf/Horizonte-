@@ -1,5 +1,3 @@
-/* mapa.js */
-
 const MapaService = {
     mapa: null,
     grupoMarcadores: null,
@@ -16,17 +14,26 @@ const MapaService = {
             attribution: '© OpenStreetMap'
         }).addTo(this.mapa);
 
+        setTimeout(() => {
+            this.mapa.invalidateSize();
+        }, 200);
+
         console.log("Mapa inicializado com sucesso.");
     },
 
     renderizarVeiculos(listaVeiculos) {
         if (!this.grupoMarcadores) return;
-        
-        this.grupoMarcadores.clearLayers(); 
+
+        this.grupoMarcadores.clearLayers();
 
         listaVeiculos.forEach(veiculo => {
             const [lat, lng] = this._gerarCoordenadasAleatorias();
+
+            veiculo.lat = lat;
+            veiculo.lng = lng;
+
             const marcador = L.marker([lat, lng]).addTo(this.grupoMarcadores);
+
             marcador.bindPopup(this._criarTemplatePopup(veiculo));
         });
     },
@@ -38,13 +45,16 @@ const MapaService = {
     },
 
     _criarTemplatePopup(veiculo) {
-        const statusIcon = (veiculo.status === "Operando" || veiculo.status === "Ativa") ? "🟢" : "🔴";
+        const statusIcon =
+            (veiculo.status === "Em Rota" || veiculo.status === "Operando")
+                ? "🟢"
+                : "🔴";
+
         return `
-            <div style="font-family: sans-serif; line-height: 1.4;">
-                <h3 style="margin: 0 0 5px 0;">${veiculo.id}</h3>
-                <p style="margin: 0;"><strong>Status:</strong> ${statusIcon} ${veiculo.status}</p>
-                <button onclick="MapaService.verDetalhes('${veiculo.id}')" 
-                        style="margin-top: 8px; background: #007bff; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; width: 100%;">
+            <div class="popup-veiculo">
+                <h3>${veiculo.id}</h3>
+                <p><strong>Status:</strong> ${statusIcon} ${veiculo.status}</p>
+                <button onclick="MapaService.verDetalhes('${veiculo.id}')">
                     Ver Detalhes
                 </button>
             </div>
@@ -54,13 +64,60 @@ const MapaService = {
     verDetalhes(idVeiculo) {
         localStorage.setItem("veiculoSelecionado", idVeiculo);
         window.location.href = "detalhes.html";
+    },
+
+    filtrarPorStatus(status) {
+        if (!this.grupoMarcadores) return;
+
+        this.grupoMarcadores.clearLayers();
+
+        const filtrados = frota.filter(v => v.status === status);
+
+        const bounds = [];
+
+        filtrados.forEach(veiculo => {
+            const [lat, lng] = this._gerarCoordenadasAleatorias();
+
+            veiculo.lat = lat;
+            veiculo.lng = lng;
+
+            const marcador = L.marker([lat, lng]).addTo(this.grupoMarcadores);
+
+            marcador.bindPopup(this._criarTemplatePopup(veiculo));
+
+            bounds.push([lat, lng]);
+        });
+
+        if (bounds.length > 0) {
+            this.mapa.fitBounds(bounds, {
+                padding: [50, 50]
+            });
+        }
     }
 };
+
 
 document.addEventListener("DOMContentLoaded", () => {
     MapaService.init("mapa-container");
 
-    if (typeof frota !== 'undefined') {
+    if (typeof frota !== "undefined") {
         MapaService.renderizarVeiculos(frota);
+    }
+
+    const filtro = localStorage.getItem("filtroStatus");
+
+    if (filtro) {
+        setTimeout(() => {
+            MapaService.filtrarPorStatus(filtro);
+        }, 300);
+
+        localStorage.removeItem("filtroStatus");
+    }
+});
+
+
+window.addEventListener("resize", () => {
+    if (MapaService.mapa) {
+        MapaService.mapa.invalidateSize();
     }
 });

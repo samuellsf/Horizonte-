@@ -2,7 +2,7 @@
 
 function gerarFrotaHorizonte() {
   const lista = [];
-  
+
   const motoristasExemplo = ["Paulo", "Brenda", "Luís", "Samuel", "André Costa", "Roberto Alves", "Ricardo Dias", "Bruno Melo", "Fernando Reis"];
   const modelosCaminhao = ["Volvo FH 540", "Mercedes-Benz Actros", "DAF XF 530", "Scania R540"];
   const destinosExemplo = ["Porto de Santos/SP", "Goiânia/GO", "Rio de Janeiro/RJ", "Belo Horizonte/MG", "Curitiba/PR", "Brasília/DF"];
@@ -26,7 +26,7 @@ function gerarFrotaHorizonte() {
   // =========================
   for (let i = 1; i <= 50; i++) {
 
-    let status = "Em rota";
+    let status = "Em Rota";
     let motivoParada = "";
     let multas = "Nenhuma";
     let velocidade = Math.floor(Math.random() * (85 - 60) + 60);
@@ -47,12 +47,12 @@ function gerarFrotaHorizonte() {
         modelo: "Volvo FH 540",
         placa: "CA1A98",
         propriedade: "Próprio",
-        motorista: "Carla",
+        motorista: "Brenda",
         velocidade: 68,
         consumo: "2.6 km/l",
         revisao: "4.200 km",
         multas: "Nenhuma",
-        status: "Em rota",
+        status: "Em Rota",
         motivoParada: "",
         devolucoes: 0,
         motivoDevolucao: "",
@@ -129,13 +129,11 @@ function gerarFrotaHorizonte() {
       devolucoes: devolucoesHoje,
       motivoDevolucao: motivoDevolucaoTexto,
       destino: status === "Oficina" ? "Oficina Central" : destinosExemplo[i % destinosExemplo.length],
-
-      // ✅ ENTREGAS
-      entregas: status === "Em rota"
+      entregas: status === "Em Rota"
         ? Math.floor(Math.random() * 10) + 5
         : 0
     });
-  } 
+  }
 
   // =========================
   // 2. VANS
@@ -147,7 +145,7 @@ function gerarFrotaHorizonte() {
       modelo: "Mercedes-Benz Sprinter",
       placa: gerarPlacaMercosul("VAN", i),
       propriedade: "Próprio",
-      status: "Em rota",
+      status: "Em Rota",
       motivoParada: "",
       multas: "Nenhuma",
       revisao: "3.400 km",
@@ -172,7 +170,7 @@ function gerarFrotaHorizonte() {
       modelo: "BYD ETP3",
       placa: gerarPlacaMercosul("ELE", i),
       propriedade: "Próprio",
-      status: "Em rota",
+      status: "Em Rota",
       motivoParada: "",
       multas: "Nenhuma",
       revisao: "4.800 km",
@@ -197,7 +195,7 @@ function gerarFrotaHorizonte() {
       modelo: "Volvo VM 330",
       placa: gerarPlacaMercosul("AGR", i),
       propriedade: "Agregado",
-      status: "Em rota",
+      status: "Em Rota",
       motivoParada: "",
       multas: i === 5 ? "1 (Evasão de Pedágio)" : "Nenhuma",
       revisao: "Agregado",

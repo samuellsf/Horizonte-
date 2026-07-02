@@ -25,6 +25,10 @@ function normalizarStatus(status) {
     .trim();
 }
 
+function filtrarStatus(status) {
+    localStorage.setItem("filtroStatus", status);
+    window.location.href = "mapa.html";
+}
 // ================================
 // INDICADORES
 // ================================

@@ -34,11 +34,11 @@
 
         <div class="filtros-status">
             <h3>FILTROS RÁPIDOS</h3>
-            <button class="filtro-btn" data-status="rota">🟢 Em Rota</button>
-            <button class="filtro-btn" data-status="oficina">🔴 Oficina</button>
-            <button class="filtro-btn" data-status="preventiva">🟡 Preventiva</button>
-            <button class="filtro-btn" data-status="patio">🔵 Pátio</button>
-            <button class="filtro-btn" data-status="concluido">🟣 Concluído</button>
+           <button onclick="filtrarStatus('Em Rota')">🟢 Em Rota</button>
+<button onclick="filtrarStatus('Oficina')">🔴 Oficina</button>
+<button onclick="filtrarStatus('Preventiva')">🟡 Preventiva</button>
+<button onclick="filtrarStatus('Pátio')">🔵 Pátio</button>
+<button onclick="filtrarStatus('Concluído')">🟣 Concluído</button>
         </div>
     </aside>
 
@@ -129,13 +129,13 @@
 
             <div class="kpi-card success">
                 <span class="kpi-title">DISPONIBILIDADE DA FROTA</span>
-                <h2 id="card-disponibilidade">79%</h2>
-                <small>Meta: 80%</small>
+                <h2 id="card-disponibilidade">95%</h2>
+                <small>Meta: 90%</small>
             </div>
 
             <div class="kpi-card danger">
                 <span class="kpi-title">ÍNDICE DE DEVOLUÇÃO</span>
-                <h2 id="card-indice-devolucao">3,8%</h2>
+                <h2 id="card-indice-devolucao">3,5%</h2>
                 <small>Meta: &lt; 5%</small>
             </div>
         </section>
@@ -176,7 +176,7 @@
             
             <div class="op-card">
                 <h3>UTILIZAÇÃO DA FROTA POR TIPO</h3>
-                <div class="progress-container"><span>Caminhões</span><div class="bar"><div class="fill" style="width: 85%;"></div></div><span>85%</span></div>
+                <div class="progress-container"><span>Caminhões</span><div class="bar"><div class="fill" style="width: 95%;"></div></div><span>95%</span></div>
                 <div class="progress-container"><span>Vans</span><div class="bar"><div class="fill" style="width: 100%;"></div></div><span>100%</span></div>
                 <div class="progress-container"><span>Elétricos</span><div class="bar"><div class="fill" style="width: 75%;"></div></div><span>75%</span></div>
                 <div class="progress-container"><span>Agregados</span><div class="bar"><div class="fill" style="width: 90%;"></div></div><span>90%</span></div>
@@ -238,7 +238,7 @@
                 <h3>RANKING DIREÇÃO ECONÔMICA</h3>
                 <div class="list-item"><span>1º Ricardo Dias</span><strong>98,6 pts</strong></div>
                 <div class="list-item"><span>2º Bruno Melo</span><strong>96,2 pts</strong></div>
-                <div class="list-item"><span>3º Carla Souza</span><strong>95,7 pts</strong></div>
+                <div class="list-item"><span>3º Brenda Souza</span><strong>95,7 pts</strong></div>
                 <div class="list-item"><span>4º Fernando Reis</span><strong>94,3 pts</strong></div>
                 <div class="list-item"><span>5º Roberto Alves</span><strong>93,1 pts</strong></div>
                 <button class="btn-ver-ranking">Ver ranking completo</button>

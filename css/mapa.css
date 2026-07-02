@@ -2,197 +2,91 @@
    MAPA
 =========================== */
 
-main{
-    flex:1;
-    width:100%;
-    padding:20px;
+* {
+    box-sizing: border-box;
 }
 
-.map-center-panel{
-    border:1px solid #142850;
-    border-radius:12px;
-    overflow:hidden;
-    position:relative;
-    background:#020617;
-    box-shadow:0 0 20px rgba(0,192,255,.15);
+main {
+    flex: 1;
+    width: 100%;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
 }
 
-/* Área do mapa */
-
-#mapa-container{
-    width:100%;
-    height:calc(100vh - 40px);
-    min-height:500px;
-    border-radius:12px;
-    z-index:1;
+#mapa-container {
+    width: 100%;
+    height: calc(100vh - 40px);
+    background: #0b132b;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,.3);
+    overflow: hidden;
 }
 
 /* ===========================
-   LEAFLET
+   TABLET
 =========================== */
 
-.leaflet-layer,
-.leaflet-control-attribution{
-    filter:invert(100%) hue-rotate(190deg) brightness(85%) contrast(110%);
-}
+@media (max-width: 992px) {
 
-/* Popup */
+    main {
+        padding: 15px;
+    }
 
-.leaflet-popup-content-wrapper{
-    background:#0b1a3a !important;
-    color:#fff !important;
-    border:1px solid #00c0ff !important;
-    border-radius:8px !important;
-}
+    #mapa-container {
+        height: calc(100vh - 30px);
+        border-radius: 10px;
+    }
 
-.leaflet-popup-content{
-    margin:12px;
-    font-size:.85rem;
-}
-
-.leaflet-popup-content strong{
-    color:#00c0ff;
-}
-
-.leaflet-popup-tip{
-    background:#0b1a3a !important;
-}
-
-.leaflet-popup-close-button{
-    color:#64748b !important;
-}
-
-.leaflet-popup-close-button:hover{
-    color:#ff4d4d !important;
 }
 
 /* ===========================
-   ZOOM
-=========================== */
-
-.leaflet-bar{
-    border:none !important;
-    box-shadow:none !important;
-}
-
-.leaflet-bar a{
-    background:#071432 !important;
-    color:#00c0ff !important;
-    border-bottom:1px solid #142850 !important;
-}
-
-.leaflet-bar a:hover{
-    background:#0b1a3a !important;
-    color:#fff !important;
-}
-
-/* ===========================
-   LEGENDA
-=========================== */
-
-.map-legend{
-    display:flex;
-    justify-content:space-around;
-    background:#050d22;
-    padding:10px;
-    color:#94a3b8;
-    border-top:1px solid #142850;
-    font-size:.8rem;
-}
-
-.map-legend span::before{
-    content:"● ";
-}
-
-.map-legend span:nth-child(1)::before{color:#00c0ff;}
-.map-legend span:nth-child(2)::before{color:#ff9f43;}
-.map-legend span:nth-child(3)::before{color:#4ade80;}
-.map-legend span:nth-child(4)::before{color:#a855f7;}
-
-/* ===========================
-   MARCADORES
-=========================== */
-
-.custom-marker{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:rgba(0,192,255,.2);
-    border:2px solid #00c0ff;
-    box-shadow:0 0 8px #00c0ff;
-    animation:pulsar 2s infinite;
-}
-
-@keyframes pulsar{
-    0%{box-shadow:0 0 0 0 rgba(0,192,255,.7);}
-    70%{box-shadow:0 0 0 8px rgba(0,192,255,0);}
-    100%{box-shadow:0 0 0 0 rgba(0,192,255,0);}
-}
-
-
-/* ===========================
-   RESPONSIVO
+   CELULAR
 =========================== */
 
 @media (max-width:768px){
 
-    /* SIDEBAR */
+    .container{
+        display:flex;
+        flex-direction:column;
+        min-height:100dvh;
+    }
+
     aside{
         width:100%;
-        padding:14px 12px;
-        gap:12px;
+        padding:15px;
+        flex-shrink:0;
     }
 
-    /* LOGO */
-    .logo-container{
-        gap:4px;
-        margin-bottom:10px;
-    }
-
-    .logo-img{
-        width:120px !important;
-        height:auto;
-    }
-
-    .legenda-frota{
-        font-size:.75rem;
-        line-height:1.2;
-    }
-
-    /* =========================
-       BOTÕES (CORREÇÃO PRINCIPAL)
-    ========================= */
-
-    .nav-buttons{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-        margin:10px 0;
-    }
-
-    /* exportar ocupa linha inteira */
-    #btn-exportar{
-        grid-column:1 / -1;
-    }
-
-    /* IMPORTANTE: evita “lista comprida” */
-    .nav-buttons button{
-        width:100%;
+    main{
+        flex:1;
+        padding:8px;
         display:flex;
-        justify-content:center;
-        align-items:center;
-        padding:12px;
-        font-size:.85rem;
     }
 
-    /* FILTROS */
-    .filtros-status h3{
-        font-size:1rem;
+    #mapa-container{
+        flex:1;
+        width:100%;
+        height:auto;
+        min-height:350px;
+        border-radius:8px;
     }
 
-    .filtro-btn{
-        padding:10px;
-        font-size:.85rem;
+}
+
+/* ===========================
+   CELULARES PEQUENOS
+=========================== */
+
+@media (max-width: 480px) {
+
+    main {
+        padding: 8px;
     }
+
+    #mapa-container {
+        height: 70vh;
+        border-radius: 6px;
+    }
+
 }
