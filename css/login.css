@@ -6,69 +6,134 @@
 }
 
 body {
-    min-height: 100vh; 
+    
+    min-height: 100dvh; 
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #0f172a;
-    padding: 20px; 
+    padding: 20px;
+    margin: 0;
+
+    background: 
+        linear-gradient(rgba(7, 17, 40, .78), rgba(7, 17, 40, .78)), 
+        url("../assets/img/caminhãoH.png");
+
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+
+   
+    overflow-y: auto; 
 }
 
+.login img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* CARD LOGIN */
 .login {
-    width: 100%; 
-    max-width: 420px; 
-    background: #1e293b;
-    padding: 40px;
-    border-radius: 14px;
+    width: 100%;
+    max-width: 430px;
+    padding: 45px 35px;
+    background: rgba(18, 28, 48, 0.1); 
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); 
+    gap: 18px;
+    
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+    animation: aparecer .8s ease;
 }
 
-h1 {
-    color: white;
-    text-align: center;
-    font-size: 1.8rem; 
-    margin-bottom: 5px;
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
-input {
-    padding: 14px;
-    border: 1px solid #334155; 
-    background: #0f172a; 
-    color: white; 
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.2s;
+h1{
+    color:#fff;
+    text-align:center;
+    font-size:2rem;
+    font-weight:700;
+    margin-bottom:10px;
+    letter-spacing:.5px;
 }
 
-input:focus {
-    border-color: #2563eb;
+input{
+    padding:15px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(15,23,42,.75);
+    color:#fff;
+    border-radius:10px;
+    outline:none;
+    font-size:15px;
+    transition:.3s;
+}
+
+input::placeholder{
+    color:#94a3b8;
+}
+
+input:focus{
+    border-color:#3b82f6;
+    box-shadow:0 0 12px rgba(59,130,246,.35);
 }
 
 button {
-    padding: 14px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    transition: background 0.2s;
-}
-
-button:hover {
-    background: #1d4ed8; 
-}
-
-@media (max-width: 480px) {
-    .login {
-        padding: 30px 20px; 
-    }
+  
+    width: 200px; 
+    margin: 0 auto; 
     
-    h1 {
-        font-size: 1.5rem; 
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    transition: .3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 25px rgba(37,99,235,.45);
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+@media (max-width:480px){
+
+    .login{
+        padding:30px 22px;
+    }
+
+    h1{
+        font-size:1.6rem;
+    }
+
+}
+@media (max-width: 350px) {
+    .login {
+        padding: 20px 15px; 
     }
 }
