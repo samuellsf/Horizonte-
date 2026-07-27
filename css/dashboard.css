@@ -14,10 +14,9 @@
 ============================== */
 
 .top-indicators{
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-    gap: 15px;
-    margin-bottom: 25px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+    gap:15px;
 }
 
 .indicator-box{
@@ -63,13 +62,11 @@
 /* ==============================
    KPIs
 ============================== */
-
 .kpi-ambev-grid,
 .finance-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:15px;
-    margin-bottom:20px;
 }
 
 .kpi-card{
@@ -106,7 +103,7 @@
 
 .main-operation-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
     gap:20px;
     margin-top:25px;
     margin-bottom:25px;
@@ -178,8 +175,11 @@
 }
 
 #graficoFrota{
-    width:250px !important;
-    height:250px !important;
+    width:100% !important;
+    max-width:260px;
+    height:auto !important;
+    aspect-ratio:1;
+    margin:auto;
 }
 
 /* ==============================
@@ -272,61 +272,135 @@ tbody tr:hover{
 /* ==============================
    RESPONSIVO
 ============================== */
+/* ===========================
+   TABLET
+=========================== */
 
-@media (max-width: 1024px) {
-    .container {
-        display: block; 
-    }
+@media (max-width:1024px){
 
-    aside {
-        width: 100%;
-        padding: 15px;
-    }
-
-    .nav-buttons, .filtros-status {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-
-    .nav-buttons button, .filtro-btn {
-        flex: 1 1 45%;
-    }
-
-    
-    .top-indicators, .kpi-ambev-grid, .finance-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-
-    .main-operation-grid {
-        grid-template-columns: 1fr;
-    }
+.container-dashboard{
+    padding:15px;
 }
 
-@media (max-width: 600px) {
-   
-    .table-section {
-        padding: 10px; 
-    }
+.top-indicators,
+.kpi-ambev-grid,
+.finance-grid{
+    grid-template-columns:repeat(2,1fr);
+}
 
-    table {
-        min-width: 700px; 
-        font-size: 0.85rem; 
-    }
+.main-operation-grid{
+    grid-template-columns:1fr;
+}
 
-    .indicator-box, .kpi-card {
-        padding: 12px;
-    }
-    
-    .kpi-card h2 {
-        font-size: 1.5rem; 
-    }
+.table-header{
+    flex-direction:column;
+    align-items:stretch;
+}
 
-    body {
-        overflow-x: hidden;
-    }
+#buscar{
+    width:100%;
+    max-width:none;
+}
 
-    .container {
-        padding: 0 5px;
-    }
+}
+
+
+/* ===========================
+   CELULAR
+=========================== */
+
+@media (max-width:768px){
+
+.container-dashboard{
+    padding:10px;
+}
+
+.top-indicators,
+.kpi-ambev-grid,
+.finance-grid{
+    grid-template-columns:1fr;
+}
+
+.main-operation-grid{
+    grid-template-columns:1fr;
+}
+
+.indicator-box,
+.kpi-card,
+.op-card{
+    padding:15px;
+}
+
+.kpi-card h2{
+    font-size:1.6rem;
+}
+
+.chart-donut-container{
+    height:auto;
+}
+
+#graficoFrota{
+    max-width:220px;
+}
+
+.progress-container{
+    grid-template-columns:70px 1fr 40px;
+}
+
+.table-section{
+    padding:10px;
+}
+
+table{
+    min-width:900px;
+}
+
+th,
+td{
+    padding:10px;
+    font-size:14px;
+}
+
+.btn-ver,
+.btn-ver-ranking{
+    width:100%;
+}
+
+}
+
+
+/* ===========================
+   CELULAR PEQUENO
+=========================== */
+
+@media (max-width:480px){
+
+.container-dashboard{
+    padding:8px;
+}
+
+.section-title{
+    font-size:18px;
+}
+
+.kpi-card h2{
+    font-size:1.35rem;
+}
+
+.ind-title{
+    font-size:.70rem;
+}
+
+.op-card{
+    min-height:auto;
+}
+
+.progress-container{
+    grid-template-columns:60px 1fr 35px;
+}
+
+#graficoFrota{
+    max-width:180px;
+}
+
 }
