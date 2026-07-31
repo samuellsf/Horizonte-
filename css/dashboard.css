@@ -13,12 +13,18 @@
    INDICADORES SUPERIORES
 ============================== */
 
-.top-indicators{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-    gap:15px;
+.top-indicators {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
 }
 
+
+@media (max-width: 1400px) {
+    .top-indicators {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
 .indicator-box{
     background: linear-gradient(180deg,#0b1a3a 0%,#050d22 100%);
     border: 1px solid #142850;
@@ -62,13 +68,21 @@
 /* ==============================
    KPIs
 ============================== */
-.kpi-ambev-grid,
-.finance-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:15px;
+/* ==============================
+   KPIs OPERACIONAIS E FINANCEIROS
+============================== */
+.kpi-ambev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin-bottom: 20px; 
 }
 
+.finance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+}
 .kpi-card{
     background:linear-gradient(180deg,#0b1a3a 0%,#050d22 100%);
     border:1px solid #142850;
@@ -269,12 +283,10 @@ tbody tr:hover{
 .txt-green{color:#22c55e;}
 .txt-orange{color:#f59e0b;}
 
+
 /* ==============================
    RESPONSIVO
 ============================== */
-/* ===========================
-   TABLET
-=========================== */
 
 @media (max-width:1024px){
 

@@ -16,278 +16,283 @@
 </head>
 <body>
 
-<div class="container">
-    
-    <aside>
-        <div class="logo-container">
-            <img src="../assets/img/caminhãoH.png" alt="Logo F. Horizonte" class="logo-img">
-            <h2 class="legenda-frota">
-                Frota Horizonte — movendo entregas, conectando destinos e acelerando resultados. 🚚
-            </h2>
-        </div>
+    <header class="mobile-header">
+        <button id="menu-toggle" aria-label="Abrir menu">
+            ☰
+        </button>
+        <h2>Frota Horizonte</h2>
+    </header>
+
+    <div id="overlay" class="overlay"></div>
+
+    <div class="container">
         
-        <nav class="nav-buttons">
-            <button class="active" onclick="window.location.href='dashboard.html'">📊 Dashboard</button>
-            <button onclick="window.location.href='mapa.html'">📍 Mapa</button>
-            <button id="btn-exportar">📄 Exportar Excel</button>
-        </nav>
-
-        <div class="filtros-status">
-            <h3>FILTROS RÁPIDOS</h3>
-           <button onclick="filtrarStatus('Em Rota')">🟢 Em Rota</button>
-<button onclick="filtrarStatus('Oficina')">🔴 Oficina</button>
-<button onclick="filtrarStatus('Preventiva')">🟡 Preventiva</button>
-<button onclick="filtrarStatus('Pátio')">🔵 Pátio</button>
-<button onclick="filtrarStatus('Concluído')">🟣 Concluído</button>
-        </div>
-    </aside>
-
-    <main class="container-dashboard">
-        
-        <header class="top-indicators">
-            <div class="indicator-box">
-                <span class="ind-title">VEÍCULOS EM OPERAÇÃO</span>
-                <div class="ind-row">
-                    <strong id="card-total">57 / 72</strong>
-                    <span class="badge-green" id="card-disponivel">79%</span>
-                </div>
-                <small class="txt-sub">Disponíveis</small>
+        <aside id="sidebar">
+            <div class="logo-container">
+                <img src="../assets/img/caminhãoH.png" alt="Logo F. Horizonte" class="logo-img">
+                <h2 class="legenda-frota">
+                    Frota Horizonte — movendo entregas, conectando destinos e acelerando resultados. 🚚
+                </h2>
             </div>
-
-            <div class="indicator-box">
-                <span class="ind-title">ENTREGAS HOJE</span>
-                <div class="ind-row">
-                    <h2><span id="card-entregas">152</span> CONCLUÍDAS</h2>
-                </div>
-                <small class="txt-up">▲ +18% vs ontem</small>
-            </div>
-
-            <div class="indicator-box">
-                <span class="ind-title">DEVOLUÇÕES HOJE</span>
-                <div class="ind-row">
-                    <h2 class="txt-red"><span id="total-devolucoes">8</span> REJEITADAS</h2>
-                </div>
-                <small class="txt-up-red">▲ +2 vs ontem</small>
-            </div>
-
-            <div class="indicator-box">
-                <span class="ind-title">ATRASOS</span>
-                <div class="ind-row">
-                    <strong id="card-atrasos" class="txt-red">14 EM ATRASO</strong>
-                </div>
-                <small class="txt-down">▼ -3 vs ontem</small>
-            </div>
-
-            <div class="indicator-box">
-                <span class="ind-title">CONSUMO DE COMBUSTÍVEL</span>
-                <div class="ind-row">
-                    <strong id="card-consumo-litros">1.394 L</strong>
-                </div>
-                <small class="sub-txt">DIESEL / ELÉTRICO <span class="txt-up-red">▲ +114 L</span></small>
-            </div>
-
-            <div class="indicator-box">
-                <span class="ind-title">🍃 EMISSÕES CO₂</span>
-                <div class="ind-row">
-                    <strong id="card-emissoes" class="txt-green">2.874 kg</strong>
-                </div>
-                <small class="txt-down">▼ -5% vs ontem</small>
-            </div>
-        </header>
-
-        <h3 class="section-title">KPIs OPERACIONAIS HORIZONTE</h3>
-        <section class="kpi-ambev-grid">
-            <div class="kpi-card success">
-                <span class="kpi-title">SLA DE ENTREGA</span>
-                <h2 id="card-sla">92,4%</h2>
-                <small>Meta: 90%</small>
-            </div>
-
-            <div class="kpi-card success">
-                <span class="kpi-title">OTIF (ON TIME IN FULL)</span>
-                <h2 id="card-otif">89,1%</h2>
-                <small>Meta: 85%</small>
-            </div>
-
-            <div class="kpi-card info">
-                <span class="kpi-title">TEMPO MÉDIO DE CARGA</span>
-                <h2 id="card-carga">1h 18m</h2>
-                <small class="txt-down">▼ -8m vs ontem</small>
-            </div>
-
-            <div class="kpi-card info">
-                <span class="kpi-title">TEMPO MÉDIO DE DESCARGA</span>
-                <h2 id="card-descarga">0h 47m</h2>
-                <small class="txt-down">▼ -5m vs ontem</small>
-            </div>
-
-            <div class="kpi-card warning">
-                <span class="kpi-title">TEMPO PARADO EM CLIENTE</span>
-                <h2 id="card-cliente">1h 26m</h2>
-                <small class="txt-up-red">▲ +9m vs ontem</small>
-            </div>
-
-            <div class="kpi-card success">
-                <span class="kpi-title">DISPONIBILIDADE DA FROTA</span>
-                <h2 id="card-disponibilidade">95%</h2>
-                <small>Meta: 90%</small>
-            </div>
-
-            <div class="kpi-card danger">
-                <span class="kpi-title">ÍNDICE DE DEVOLUÇÃO</span>
-                <h2 id="card-indice-devolucao">3,5%</h2>
-                <small>Meta: &lt; 5%</small>
-            </div>
-        </section>
-
-        <section class="finance-grid">
-            <div class="kpi-card purple">
-                <span>CUSTO POR KM RODADO</span>
-                <h2 id="card-km">R$ 3,42</h2>
-                <small class="txt-down">▼ -2,1% vs ontem</small>
-            </div>
-
-            <div class="kpi-card purple">
-                <span>CUSTO POR ENTREGA</span>
-                <h2 id="card-entrega-custo">R$ 41,35</h2>
-                <small class="txt-down">▼ -3,4% vs ontem</small>
-            </div>
-
-            <div class="kpi-card blue">
-                <span>KM RODADOS HOJE</span>
-                <h2 id="card-km-dia">18.540 km</h2>
-                <small class="txt-up">▲ +1.250 km vs ontem</small>
-            </div>
-
-            <div class="kpi-card orange">
-                <span>CONSUMO MÉDIO</span>
-                <h2 id="card-consumo-medio">2,75 km/l</h2>
-                <small class="txt-up-red">▲ +0,12 vs ontem</small>
-            </div>
-
-            <div class="kpi-card yellow">
-                <span>OCIOSIDADE DA FROTA</span>
-                <h2 id="card-ociosidade">11%</h2>
-                <small class="txt-down">▼ -2% vs ontem</small>
-            </div>
-        </section>
-
-        <section class="main-operation-grid">
             
-            <div class="op-card">
-                <h3>UTILIZAÇÃO DA FROTA POR TIPO</h3>
-                <div class="progress-container"><span>Caminhões</span><div class="bar"><div class="fill" style="width: 95%;"></div></div><span>95%</span></div>
-                <div class="progress-container"><span>Vans</span><div class="bar"><div class="fill" style="width: 100%;"></div></div><span>100%</span></div>
-                <div class="progress-container"><span>Elétricos</span><div class="bar"><div class="fill" style="width: 75%;"></div></div><span>75%</span></div>
-                <div class="progress-container"><span>Agregados</span><div class="bar"><div class="fill" style="width: 90%;"></div></div><span>90%</span></div>
-            </div>
+            <nav class="nav-buttons">
+                <button class="active" onclick="window.location.href='dashboard.html'">📊 Dashboard</button>
+                <button onclick="window.location.href='mapa.html'">📍 Mapa</button>
+                <button id="btn-exportar">📄 Exportar Excel</button>
+            </nav>
 
-            <div class="op-card">
-                <h3>DISTRIBUIÇÃO DA FROTA</h3>
-                <div class="chart-donut-container">
-                    <canvas id="graficoFrota"></canvas>
+            <div class="filtros-status">
+                <h3>FILTROS RÁPIDOS</h3>
+                <button onclick="filtrarStatus('Em Rota')">🟢 Em Rota</button>
+                <button onclick="filtrarStatus('Oficina')">🔴 Oficina</button>
+                <button onclick="filtrarStatus('Preventiva')">🟡 Preventiva</button>
+                <button onclick="filtrarStatus('Pátio')">🔵 Pátio</button>
+                <button onclick="filtrarStatus('Concluído')">🟣 Concluído</button>
+            </div>
+        </aside>
+
+        <main class="container-dashboard">
+            
+            <!-- Indicadores do Topo -->
+            <section class="top-indicators">
+                <article class="indicator-box">
+                    <span class="ind-title">VEÍCULOS EM OPERAÇÃO</span>
+                    <div class="ind-row">
+                        <strong id="card-total">57 / 72</strong>
+                        <span class="badge-green" id="card-disponivel">79%</span>
+                    </div>
+                    <small class="txt-sub">Disponíveis</small>
+                </article>
+
+                <article class="indicator-box">
+                    <span class="ind-title">ENTREGAS HOJE</span>
+                    <div class="ind-row">
+                        <h2><span id="card-entregas">152</span> CONCLUÍDAS</h2>
+                    </div>
+                    <small class="txt-up">▲ +18% vs ontem</small>
+                </article>
+
+                <article class="indicator-box">
+                    <span class="ind-title">DEVOLUÇÕES HOJE</span>
+                    <div class="ind-row">
+                        <h2 class="txt-red"><span id="total-devolucoes">8</span> REJEITADAS</h2>
+                    </div>
+                    <small class="txt-up-red">▲ +2 vs ontem</small>
+                </article>
+
+                <article class="indicator-box">
+                    <span class="ind-title">ATRASOS</span>
+                    <div class="ind-row">
+                        <strong id="card-atrasos" class="txt-red">14 EM ATRASO</strong>
+                    </div>
+                    <small class="txt-down">▼ -3 vs ontem</small>
+                </article>
+
+                <article class="indicator-box">
+                    <span class="ind-title">CONSUMO DE COMBUSTÍVEL</span>
+                    <div class="ind-row">
+                        <strong id="card-consumo-litros">1.394 L</strong>
+                    </div>
+                    <small class="sub-txt">DIESEL / ELÉTRICO <span class="txt-up-red">▲ +114 L</span></small>
+                </article>
+
+                <article class="indicator-box">
+                    <span class="ind-title">🍃 EMISSÕES CO₂</span>
+                    <div class="ind-row">
+                        <strong id="card-emissoes" class="txt-green">2.874 kg</strong>
+                    </div>
+                    <small class="txt-down">▼ -5% vs ontem</small>
+                </article>
+            </section>
+
+            <!-- KPIs Operacionais -->
+            <h3 class="section-title">KPIs OPERACIONAIS HORIZONTE</h3>
+            <section class="kpi-ambev-grid">
+                <article class="kpi-card success">
+                    <span class="kpi-title">SLA DE ENTREGA</span>
+                    <h2 id="card-sla">92,4%</h2>
+                    <small>Meta: 90%</small>
+                </article>
+
+                <article class="kpi-card success">
+                    <span class="kpi-title">OTIF (ON TIME IN FULL)</span>
+                    <h2 id="card-otif">89,1%</h2>
+                    <small>Meta: 85%</small>
+                </article>
+
+                <article class="kpi-card info">
+                    <span class="kpi-title">TEMPO MÉDIO DE CARGA</span>
+                    <h2 id="card-carga">1h 18m</h2>
+                    <small class="txt-down">▼ -8m vs ontem</small>
+                </article>
+
+                <article class="kpi-card info">
+                    <span class="kpi-title">TEMPO MÉDIO DE DESCARGA</span>
+                    <h2 id="card-descarga">0h 47m</h2>
+                    <small class="txt-down">▼ -5m vs ontem</small>
+                </article>
+
+                <article class="kpi-card warning">
+                    <span class="kpi-title">TEMPO PARADO EM CLIENTE</span>
+                    <h2 id="card-cliente">1h 26m</h2>
+                    <small class="txt-up-red">▲ +9m vs ontem</small>
+                </article>
+
+                <article class="kpi-card success">
+                    <span class="kpi-title">DISPONIBILIDADE DA FROTA</span>
+                    <h2 id="card-disponibilidade">95%</h2>
+                    <small>Meta: 90%</small>
+                </article>
+
+                <article class="kpi-card danger">
+                    <span class="kpi-title">ÍNDICE DE DEVOLUÇÃO</span>
+                    <h2 id="card-indice-devolucao">3,5%</h2>
+                    <small>Meta: &lt; 5%</small>
+                </article>
+            </section>
+
+            <!-- Indicadores Financeiros e de Desempenho -->
+            <section class="finance-grid">
+                <article class="kpi-card purple">
+                    <span>CUSTO POR KM RODADO</span>
+                    <h2 id="card-km">R$ 3,42</h2>
+                    <small class="txt-down">▼ -2,1% vs ontem</small>
+                </article>
+
+                <article class="kpi-card purple">
+                    <span>CUSTO POR ENTREGA</span>
+                    <h2 id="card-entrega-custo">R$ 41,35</h2>
+                    <small class="txt-down">▼ -3,4% vs ontem</small>
+                </article>
+
+                <article class="kpi-card blue">
+                    <span>KM RODADOS HOJE</span>
+                    <h2 id="card-km-dia">18.540 km</h2>
+                    <small class="txt-up">▲ +1.250 km vs ontem</small>
+                </article>
+
+                <article class="kpi-card orange">
+                    <span>CONSUMO MÉDIO</span>
+                    <h2 id="card-consumo-medio">2,75 km/l</h2>
+                    <small class="txt-up-red">▲ +0,12 vs ontem</small>
+                </article>
+
+                <article class="kpi-card yellow">
+                    <span>OCIOSIDADE DA FROTA</span>
+                    <h2 id="card-ociosidade">11%</h2>
+                    <small class="txt-down">▼ -2% vs ontem</small>
+                </article>
+            </section>
+
+            <!-- Grade Principal de Operações e Gráficos -->
+            <section class="main-operation-grid">
+                
+                <article class="op-card">
+                    <h3>UTILIZAÇÃO DA FROTA POR TIPO</h3>
+                    <div class="progress-container"><span>Caminhões</span><div class="bar"><div class="fill" style="width: 95%;"></div></div><span>95%</span></div>
+                    <div class="progress-container"><span>Vans</span><div class="bar"><div class="fill" style="width: 100%;"></div></div><span>100%</span></div>
+                    <div class="progress-container"><span>Elétricos</span><div class="bar"><div class="fill" style="width: 75%;"></div></div><span>75%</span></div>
+                    <div class="progress-container"><span>Agregados</span><div class="bar"><div class="fill" style="width: 90%;"></div></div><span>90%</span></div>
+                </article>
+
+                <article class="op-card">
+                    <h3>DISTRIBUIÇÃO DA FROTA</h3>
+                    <div class="chart-donut-container">
+                        <canvas id="graficoFrota"></canvas>
+                    </div>
+                </article>
+
+                <article class="op-card">
+                    <h3>RANKING MOTORISTAS</h3>
+                    <div class="list-item"><span>1º Paulo</span><strong>280 ENTREGAS</strong></div>
+                    <div class="list-item"><span>2º Samuel</span><strong>270 ENTREGAS</strong></div>
+                    <div class="list-item"><span>3º Luís</span><strong>255 ENTREGAS</strong></div>
+                    <button class="btn-ver-ranking">Ver ranking completo</button>
+                </article>
+
+                <article class="op-card">
+                    <h3>MONITORAMENTO OPERACIONAL</h3>
+                    <div class="list-item">
+                        <span>🚨 Frenagens Bruscas</span>
+                        <strong id="card-frenagens">14</strong>
+                    </div>
+                    <div class="list-item">
+                        <span>⚠️ Excesso de Velocidade</span>
+                        <strong id="card-excesso">9</strong>
+                    </div>
+                    <div class="list-item">
+                        <span>⛽ Marcha Lenta Excessiva</span>
+                        <strong id="card-marcha-lenta">6</strong>
+                    </div>
+                    <div class="list-item">
+                        <span>🔧 RPM Elevado</span>
+                        <strong id="card-rpm">4</strong>
+                    </div>
+                    <div class="list-item">
+                        <span>📍 Desvio de Rota</span>
+                        <strong id="card-desvio">2</strong>
+                    </div>
+                    <div class="list-item">
+                        <span>📶 Veículos Offline</span>
+                        <strong id="card-offline">1</strong>
+                    </div>
+                </article>
+
+                <article class="op-card">
+                    <h3>RANKING DIREÇÃO ECONÔMICA</h3>
+                    <div class="list-item"><span>1º Ricardo Dias</span><strong>98,6 pts</strong></div>
+                    <div class="list-item"><span>2º Bruno Melo</span><strong>96,2 pts</strong></div>
+                    <div class="list-item"><span>3º Brenda Souza</span><strong>95,7 pts</strong></div>
+                    <div class="list-item"><span>4º Fernando Reis</span><strong>94,3 pts</strong></div>
+                    <div class="list-item"><span>5º Roberto Alves</span><strong>93,1 pts</strong></div>
+                    <button class="btn-ver-ranking">Ver ranking completo</button>
+                </article>
+            </section>
+            
+            <!-- Tabela da Torre de Controle -->
+            <section class="table-section">
+                <div class="table-header">
+                    <h3>TORRE DE CONTROLE OPERACIONAL</h3>
+                    <input
+                        type="text"
+                        id="buscar"
+                        placeholder="Pesquisar por veículo, motorista, placa ou tipo..."
+                    >
                 </div>
-            </div>
 
-            <div class="op-card">
-                <h3>RANKING MOTORISTAS</h3>
-                <div class="list-item"><span>1º Paulo</span><strong>22 ENTREGAS</strong></div>
-                <div class="list-item"><span>2º Samuel</span><strong>18 ENTREGAS</strong></div>
-                <div class="list-item"><span>3º Luís</span><strong>15 ENTREGAS</strong></div>
-                <div class="list-item"><span>4º André Costa</span><strong>12 ENTREGAS</strong></div>
-                <div class="list-item"><span>5º Ricardo Dias</span><strong>11 ENTREGAS</strong></div>
-                <button class="btn-ver-ranking">Ver ranking completo</button>
-            </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tipo</th>
+                                <th>Modelo</th>
+                                <th>Motorista</th>
+                                <th>Velocidade</th>
+                                <th>Consumo</th>
+                                <th>Próx. Revisão</th>
+                                <th>Multas</th>
+                                <th>Status / Motivo</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista"></tbody>
+                    </table>
+                </div>
+            </section>
 
-            <div class="op-card">
-    <h3>MONITORAMENTO OPERACIONAL</h3>
-
-    <div class="list-item">
-        <span>🚨 Frenagens Bruscas</span>
-        <strong id="card-frenagens">14</strong>
+        </main>
     </div>
-
-    <div class="list-item">
-        <span>⚠️ Excesso de Velocidade</span>
-        <strong id="card-excesso">9</strong>
-    </div>
-
-    <div class="list-item">
-        <span>⛽ Marcha Lenta Excessiva</span>
-        <strong id="card-marcha-lenta">6</strong>
-    </div>
-
-    <div class="list-item">
-        <span>🔧 RPM Elevado</span>
-        <strong id="card-rpm">4</strong>
-    </div>
-
-    <div class="list-item">
-        <span>📍 Desvio de Rota</span>
-        <strong id="card-desvio">2</strong>
-    </div>
-
-    <div class="list-item">
-        <span>📶 Veículos Offline</span>
-        <strong id="card-offline">1</strong>
-    </div>
-</div>
-
-
-            <div class="op-card">
-                <h3>RANKING DIREÇÃO ECONÔMICA</h3>
-                <div class="list-item"><span>1º Ricardo Dias</span><strong>98,6 pts</strong></div>
-                <div class="list-item"><span>2º Bruno Melo</span><strong>96,2 pts</strong></div>
-                <div class="list-item"><span>3º Brenda Souza</span><strong>95,7 pts</strong></div>
-                <div class="list-item"><span>4º Fernando Reis</span><strong>94,3 pts</strong></div>
-                <div class="list-item"><span>5º Roberto Alves</span><strong>93,1 pts</strong></div>
-                <button class="btn-ver-ranking">Ver ranking completo</button>
-            </div>
-        </section>
-        
-        
-        <section class="table-section">
-
-    <div class="table-header">
-        <h3>TORRE DE CONTROLE OPERACIONAL</h3>
-
-        <input
-            type="text"
-            id="buscar"
-            placeholder="Pesquisar por veículo, motorista, placa ou tipo..."
-        >
-    </div>
-
-    <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tipo</th>
-                        <th>Modelo</th>
-                        <th>Motorista</th>
-                        <th>Velocidade</th>
-                        <th>Consumo</th>
-                        <th>Próx. Revisão</th>
-                        <th>Multas</th>
-                        <th>Status / Motivo</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody id="lista"></tbody>
-            </table>
-        </section>
-    </main>
-</div>
-
-  
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="../js/api.js" defer></script>
-<script src="../js/auth.js" defer></script>
-<script src="../js/frota.js" defer></script>
-<script src="../js/dashboard.js" defer></script>
-<script src="../js/combustivel.js" defer></script>
-<script src="../js/realtime.js" defer></script>
-<script src="../js/modal.js" defer></script>
-<script src="../js/pwa.js" defer></script>
+ 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="../js/api.js" defer></script>
+    <script src="../js/auth.js" defer></script>
+    <script src="../js/frota.js" defer></script>
+    <script src="../js/dashboard.js" defer></script>
+    <script src="../js/combustivel.js" defer></script>
+    <script src="../js/realtime.js" defer></script>
+    <script src="../js/modal.js" defer></script>
+    <script src="../js/pwa.js" defer></script>
+    <script src="../js/menu.js" defer></script>
 </body>
 </html>

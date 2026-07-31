@@ -1,5 +1,6 @@
 aside {
-    width: 300px;
+     width: 260px;
+    min-width: 260px;
     background: #0b1730;
     padding: 30px 20px;
     display: flex;
@@ -28,7 +29,7 @@ aside h2 {
 }
 
 .logo-img{
-    width:200px;
+    width:150px;
     height:auto;
     object-fit:contain;
 }
@@ -130,10 +131,6 @@ aside button.active {
     }
 }
 /* ============================
-   CELULARES
-============================ */
-
-/* ============================
    CELULAR
 ============================ */
 
@@ -197,6 +194,95 @@ aside button.active {
     .grid-filtros{
         grid-template-columns:1fr;
         gap:10px;
+    }
+
+}
+/* ===========================
+   MENU MOBILE
+=========================== */
+
+.mobile-header{
+    display:none;
+}
+
+.overlay{
+    display:none;
+}
+
+@media (max-width:768px){
+
+    .mobile-header{
+        display:flex;
+        align-items:center;
+        gap:15px;
+        height:60px;
+        padding:0 16px;
+        background:#0b1730;
+        border-bottom:1px solid #1e3a5f;
+        position:sticky;
+        top:0;
+        z-index:1100;
+    }
+
+    .mobile-header h2{
+        font-size:20px;
+        color:#fff;
+        margin:0;
+    }
+
+    #menu-toggle{
+    width:42px;
+    height:42px;
+    background:#132446;
+    border:none;
+    border-radius:8px;
+    color:#fff;
+    font-size:24px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+#menu-toggle:hover{
+    background:#2563eb;
+}
+
+   aside{
+    position:fixed;
+    top:0;
+    left:0;
+    width:280px;
+    max-width:85%;
+        height:100vh;
+        z-index:1200;
+
+        transform:translateX(-100%);
+        transition:transform .3s ease;
+        will-change:transform;
+        overflow-y:auto;
+    }
+
+    aside.open{
+        transform:translateX(0);
+    }
+
+    aside.open{
+    box-shadow:10px 0 35px rgba(0,0,0,.45);
+}
+
+    .overlay{
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.45);
+        display:none;
+        z-index:1150;
+    }
+
+    .overlay.show{
+        display:block;
+    }
+
+    main{
+        width:100%;
     }
 
 }
