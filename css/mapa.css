@@ -90,3 +90,35 @@ main {
     }
 
 }
+
+.btn-voltar-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .btn-voltar-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        position: fixed;
+        bottom: 25px; 
+        right: 20px; 
+        z-index: 9999; 
+        
+        padding: 5px 10px;
+        background-color: #00c0ff;
+        color: #000;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        font-size: 0.9rem;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        transition: opacity 0.2s;
+    }
+    
+    .btn-voltar-mobile:active {
+        opacity: 0.8;
+    }
+}

@@ -1,5 +1,4 @@
-/* css/style.css */
-
+/* tyle.css */
 *{
     margin:0;
     padding:0;
@@ -21,10 +20,17 @@ body{
     color:#fff;
 }
 
-img{
-    max-width:100%;
-    height:auto;
-    display:block;
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.logo-img {
+    width: 100% !important;    
+    max-width: 100% !important; 
+    height: auto !important;   
+    margin: 0 auto 15px auto;   
 }
 
 button,
@@ -130,6 +136,7 @@ table{
     }
 
 }
+
 
 /* ===========================
    CELULARES PEQUENOS
